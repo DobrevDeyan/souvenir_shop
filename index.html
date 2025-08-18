@@ -3,12 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cremy</title>
-    <meta name="description" content="Изработка на морски декорации с епоксидна смола, естествени миди, раковини и корали. Ароматни свещи от соево восък и магнити за специални поводи. За подарък или мил спомен за лято. Ръчно изработени с любов.">
-    <meta property="og:title" content="Морски декорации - Ръчно Изработени Морски Декорации">
-    <meta property="og:description" content="Красиви ръчно изработени морски декорации от епоксидна смола и истински морски материали">
-    <meta property="og:image" content="https://oceantreasures.tk/assets/images/hero-image.jpg">
+    <title>Креми - Ръчно Изработени Морски Декорации | Варна, България</title>
+    <meta name="description" content="Ръчно изработени морски декорации от епоксидна смола, естествени миди и раковини. Ароматни свещи от соево восък и персонализирани магнити. За подарък или мил спомен за лято. Доставка в България.">
+    <meta name="keywords" content="морски декорации, епоксидна смола, раковини, миди, ароматни свещи, соево восък, магнити, подаръци, ръчно изработени, България, Варна">
+    <meta name="author" content="Креми - Морски декорации">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="Bulgarian">
+    <meta name="geo.region" content="BG">
+    <meta name="geo.placename" content="Varna">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Креми - Ръчно Изработени Морски Декорации | Варна, България">
+    <meta property="og:description" content="Красиви ръчно изработени морски декорации от епоксидна смола и истински морски материали. Ароматни свещи и магнити за подаръци.">
+    <meta property="og:image" content="https://oceantreasures.tk/assets/images/seashells_3.jpg">
     <meta property="og:url" content="https://oceantreasures.tk">
+    <meta property="og:site_name" content="Креми - Морски декорации">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="Креми - Ръчно Изработени Морски Декорации">
+    <meta property="twitter:description" content="Красиви ръчно изработени морски декорации от епоксидна смола и истински морски материали.">
+    <meta property="twitter:image" content="https://oceantreasures.tk/assets/images/seashells_3.jpg">
     
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="assets/favi.svg">
@@ -31,7 +47,7 @@
             <div class="nav-logo">
                 <i class="fas fa-seashell"></i>
                 <span>Cremy</span>
-                <img src="/assets/images/seashells_4.jpg" alt="" class="cremy_logo">
+                <img src="/assets/images/seashells_4.jpg" alt="Креми лого - Морски декорации" class="cremy_logo">
             </div>
             <ul class="nav-menu">
                 <li><a href="#home" class="nav-link">Начало</a></li>
@@ -472,6 +488,15 @@
         </div>
     </footer>
 
+    <!-- Google Analytics -->
+    {# <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'GA_MEASUREMENT_ID'); // Replace with your GA ID
+    </script> #}
+
     <!-- Firebase SDK -->
     <script type="module">
       // Import the functions you need from the SDKs you need
@@ -492,6 +517,67 @@
       // Initialize Firebase
       const app = initializeApp(firebaseConfig);
       const analytics = getAnalytics(app);
+    </script>
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "Креми - Морски декорации",
+        "description": "Ръчно изработени морски декорации от епоксидна смола, естествени миди и раковини. Ароматни свещи от соево восък и персонализирани магнити.",
+        "url": "https://oceantreasures.tk",
+        "telephone": "+359895357623",
+        "email": "kremi.jordanova@abv.bg",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "ул. Искър 10",
+            "addressLocality": "Варна",
+            "addressRegion": "Варна",
+            "addressCountry": "BG",
+            "postalCode": "9000"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": "43.2141",
+            "longitude": "27.9147"
+        },
+        "openingHours": "Mo-Su 09:00-18:00",
+        "priceRange": "$$",
+        "currenciesAccepted": "BGN",
+        "paymentAccepted": "Cash, Bank Transfer",
+        "areaServed": "България",
+        "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Морски декорации",
+            "itemListElement": [
+                {
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "Product",
+                        "name": "Морски декорации от епоксидна смола"
+                    }
+                },
+                {
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "Product",
+                        "name": "Ароматни свещи от соево восък"
+                    }
+                },
+                {
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "Product",
+                        "name": "Персонализирани магнити"
+                    }
+                }
+            ]
+        },
+        "sameAs": [
+            "https://www.facebook.com/profile.php?id=61576818584568"
+        ]
+    }
     </script>
 
     <!-- Scripts -->
