@@ -9,6 +9,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize custom image viewer
     initializeCustomImageViewer();
+    
+    // Add touch support for mobile
+    addMobileTouchSupport();
 });
 
 // GSAP Animations
@@ -49,16 +52,7 @@ function initializeAnimations() {
         delay: 0.8
     });
 
-    // Floating shells animation
-    gsap.to('.shell', {
-        y: -20,
-        rotation: 360,
-        duration: 3,
-        ease: 'power2.inOut',
-        stagger: 1,
-        repeat: -1,
-        yoyo: true
-    });
+
 
     // Section headers animation
     gsap.from('.section-header', {
@@ -166,25 +160,41 @@ function initializeNavigation() {
     const hamburger = document.querySelector('.hamburger');
     const navMenu = document.querySelector('.nav-menu');
     const navLinks = document.querySelectorAll('.nav-link');
+    const body = document.body;
 
     // Mobile menu toggle
-    hamburger.addEventListener('click', function() {
+    hamburger.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
         hamburger.classList.toggle('active');
         navMenu.classList.toggle('active');
+        
+        // Prevent body scroll when menu is open
+        if (navMenu.classList.contains('active')) {
+            body.style.overflow = 'hidden';
+        } else {
+            body.style.overflow = '';
+        }
+    });
+
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!hamburger.contains(e.target) && !navMenu.contains(e.target)) {
+            hamburger.classList.remove('active');
+            navMenu.classList.remove('active');
+            body.style.overflow = '';
+        }
     });
 
     // Close mobile menu when clicking on a link
     navLinks.forEach(link => {
-        link.addEventListener('click', function() {
-            hamburger.classList.remove('active');
-            navMenu.classList.remove('active');
-        });
-    });
-
-    // Smooth scrolling for navigation links
-    navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
             e.preventDefault();
+            hamburger.classList.remove('active');
+            navMenu.classList.remove('active');
+            body.style.overflow = '';
+            
+            // Smooth scrolling to section
             const targetId = this.getAttribute('href');
             const targetSection = document.querySelector(targetId);
             
@@ -209,6 +219,43 @@ function initializeNavigation() {
             navbar.style.boxShadow = 'none';
         }
     });
+}
+
+// Add mobile touch support
+function addMobileTouchSupport() {
+    // Add touch feedback for buttons
+    const buttons = document.querySelectorAll('button, .cta-button, .filter-btn');
+    buttons.forEach(button => {
+        button.addEventListener('touchstart', function() {
+            this.style.transform = 'scale(0.95)';
+        });
+        
+        button.addEventListener('touchend', function() {
+            this.style.transform = '';
+        });
+    });
+
+    // Add touch feedback for gallery items
+    const galleryItems = document.querySelectorAll('.gallery-item');
+    galleryItems.forEach(item => {
+        item.addEventListener('touchstart', function() {
+            this.style.transform = 'scale(0.98)';
+        });
+        
+        item.addEventListener('touchend', function() {
+            this.style.transform = '';
+        });
+    });
+
+    // Prevent zoom on double tap for iOS
+    let lastTouchEnd = 0;
+    document.addEventListener('touchend', function(event) {
+        const now = (new Date()).getTime();
+        if (now - lastTouchEnd <= 300) {
+            event.preventDefault();
+        }
+        lastTouchEnd = now;
+    }, false);
 }
 
 // Gallery functionality
@@ -252,24 +299,26 @@ function initializeGallery() {
         });
     });
 
-    // Gallery item hover effects
-    galleryItems.forEach(item => {
-        item.addEventListener('mouseenter', function() {
-            gsap.to(this, {
-                duration: 0.3,
-                scale: 1.05,
-                ease: 'power2.out'
+    // Gallery item hover effects (desktop only)
+    if (!('ontouchstart' in window)) {
+        galleryItems.forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                gsap.to(this, {
+                    duration: 0.3,
+                    scale: 1.05,
+                    ease: 'power2.out'
+                });
             });
-        });
 
-        item.addEventListener('mouseleave', function() {
-            gsap.to(this, {
-                duration: 0.3,
-                scale: 1,
-                ease: 'power2.out'
+            item.addEventListener('mouseleave', function() {
+                gsap.to(this, {
+                    duration: 0.3,
+                    scale: 1,
+                    ease: 'power2.out'
+                });
             });
         });
-    });
+    }
 }
 
 
@@ -487,16 +536,6 @@ function showImageInModal(item, modal) {
     }, 150);
 }
 
-// Parallax effect for hero section
-window.addEventListener('scroll', function() {
-    const scrolled = window.pageYOffset;
-    const heroBackground = document.querySelector('.hero-background');
-    
-    if (heroBackground) {
-        heroBackground.style.transform = `translateY(${scrolled * 0.5}px)`;
-    }
-});
-
 // Loading animation
 window.addEventListener('load', function() {
     const loadingElements = document.querySelectorAll('.loading');
@@ -676,150 +715,4 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
-// GSAP Parallax effect
-function initializeParallaxEffect() {
-    const hero = document.querySelector('.hero');
-    const heroContent = document.querySelector('.hero-content');
-    const heroTitle = document.querySelector('.hero-title');
-    const heroSubtitle = document.querySelector('.hero-subtitle');
-    const heroDescription = document.querySelector('.hero-description');
-    const ctaButton = document.querySelector('.cta-button');
-    
-    if (!hero) return;
-
-    // Scroll-based parallax using GSAP ScrollTrigger
-    gsap.to(hero, {
-        yPercent: -50,
-        ease: "none",
-        scrollTrigger: {
-            trigger: hero,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: 1
-        }
-    });
-
-    // Parallax for different elements with different speeds
-    gsap.to(heroTitle, {
-        yPercent: -30,
-        ease: "none",
-        scrollTrigger: {
-            trigger: hero,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: 1.5
-        }
-    });
-
-    gsap.to(heroSubtitle, {
-        yPercent: -20,
-        ease: "none",
-        scrollTrigger: {
-            trigger: hero,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: 1.2
-        }
-    });
-
-    gsap.to(heroDescription, {
-        yPercent: -15,
-        ease: "none",
-        scrollTrigger: {
-            trigger: hero,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: 1
-        }
-    });
-
-    gsap.to(ctaButton, {
-        yPercent: -25,
-        ease: "none",
-        scrollTrigger: {
-            trigger: hero,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: 1.3
-        }
-    });
-
-    // Mouse move parallax effect
-    let mouseX = 0;
-    let mouseY = 0;
-
-    hero.addEventListener('mousemove', function(e) {
-        const { clientX, clientY } = e;
-        const { innerWidth, innerHeight } = window;
-        
-        mouseX = (clientX - innerWidth / 2) / innerWidth;
-        mouseY = (clientY - innerHeight / 2) / innerHeight;
-        
-        // Smooth mouse parallax with GSAP
-        gsap.to(hero, {
-            x: mouseX * 20,
-            y: mouseY * 10,
-            duration: 0.5,
-            ease: "power2.out"
-        });
-
-        gsap.to(heroTitle, {
-            x: mouseX * 30,
-            y: mouseY * 15,
-            duration: 0.5,
-            ease: "power2.out"
-        });
-
-        gsap.to(heroSubtitle, {
-            x: mouseX * 25,
-            y: mouseY * 12,
-            duration: 0.5,
-            ease: "power2.out"
-        });
-
-        gsap.to(heroDescription, {
-            x: mouseX * 20,
-            y: mouseY * 10,
-            duration: 0.5,
-            ease: "power2.out"
-        });
-
-        gsap.to(ctaButton, {
-            x: mouseX * 35,
-            y: mouseY * 18,
-            duration: 0.5,
-            ease: "power2.out"
-        });
-    });
-
-    // Reset on mouse leave
-    hero.addEventListener('mouseleave', function() {
-        gsap.to([hero, heroTitle, heroSubtitle, heroDescription, ctaButton], {
-            x: 0,
-            y: 0,
-            duration: 0.8,
-            ease: "power2.out"
-        });
-    });
-
-    // Subtle floating animation
-    gsap.to(hero, {
-        y: -15,
-        duration: 4,
-        ease: "power2.inOut",
-        yoyo: true,
-        repeat: -1
-    });
-
-    // Ensure elements are visible (no entrance animation to avoid conflicts)
-    gsap.set([heroTitle, heroSubtitle, heroDescription, ctaButton], {
-        opacity: 1,
-        y: 0,
-        clearProps: "all"
-    });
-}
-
-// Initialize parallax effect
-document.addEventListener('DOMContentLoaded', function() {
-    initializeParallaxEffect();
-}); 
+ 
